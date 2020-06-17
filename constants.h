@@ -33,10 +33,4 @@ namespace stringSize
 	inline constexpr size_t empty{};
 }
 
-namespace programStatus
-{
-	inline constexpr bool run{ true };
-	inline constexpr bool exit{ false };
-}
-
 #endif
