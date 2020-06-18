@@ -41,7 +41,31 @@ std::string removeJunkCharacters(std::string uString, std::size_t sPos)
 	return uString.erase(sPos, pPos);
 }
 
-// Get terms from the string
+mterm_t stringToTerm(std::string uString, std::size_t pA, std::size_t pB, bool dec)
+{
+	mterm_t gTerm{};
+	gTerm.ePos = pB;
+	if (dec)
+	{
+		gTerm.uFTerm = std::stod(uString.substr(pA, pB));
+		gTerm.eCode = StatusCodes::CHANGE_TYPE;
+	}
+	else
+	{
+		try
+		{
+			gTerm.uTerm = std::stol(uString.substr(pA, pB));
+		}
+		catch (std::out_of_range&)
+		{
+			gTerm.uFTerm = std::stod(uString.substr(pA, pB));
+			gTerm.eCode = StatusCodes::CHANGE_TYPE;
+		}
+	}
+
+	return gTerm;
+}
+
 mterm_t getTerms(std::string uString, std::size_t sPos)
 {
 	// Clean up depending on position.
@@ -73,31 +97,10 @@ mterm_t getTerms(std::string uString, std::size_t sPos)
 			++decCount;
 	}
 
-	// Return the value, if there's an overflow just give a double.
-	mterm_t gTerm{};
-	gTerm.ePos = pPos;
-	if (decCount >= 1)
-	{
-		gTerm.uFTerm = std::stod(uString.substr(sPos, pPos));
-		gTerm.eCode = StatusCodes::CHANGE_TYPE;
-	}
-	else
-	{
-		try
-		{
-			gTerm.uTerm = std::stol(uString.substr(sPos, pPos));
-		}
-		catch (std::out_of_range&)
-		{
-			gTerm.uFTerm = std::stod(uString.substr(sPos, pPos));
-			gTerm.eCode = StatusCodes::CHANGE_TYPE;
-		}
-	}
-
-	return gTerm;
+	// if there's an overflow just give a double.
+	return stringToTerm(uString, sPos, pPos, decCount);
 }
 
-// Checks for operation from string.
 mop_t getOperator(std::string uString, std::size_t termAEnd)
 {
 	// Delete what's before so the wrong operation isn't grabbed.

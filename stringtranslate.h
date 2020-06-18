@@ -11,6 +11,8 @@ bool checkListWNum(std::string uString, size_t cPos, const char sChars[]);
 
 bool checkList(std::string uString, size_t cPos, const char sChars[]);
 
+mterm_t stringToTerm(std::string uString, std::size_t pA, std::size_t pB, bool dec);
+
 mterm_t getTerms(std::string uString, std::size_t sPos);
 
 mop_t getOperator(std::string uString, std::size_t termAEnd);
