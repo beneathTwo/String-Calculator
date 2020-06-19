@@ -20,6 +20,8 @@ enum class StatusCodes
 	OUT_OF_RANGE,
 };
 
+using sCode_t = StatusCodes;
+
 struct MathOperator
 {
 	char uOp{};
@@ -27,7 +29,7 @@ struct MathOperator
 	StatusCodes eCode{};
 };
 
-using mop_t = MathOperator;
+using mOp_t = MathOperator;
 
 struct MathTerm
 {
@@ -37,6 +39,6 @@ struct MathTerm
 	double uFTerm{};
 };
 
-using mterm_t = MathTerm;
+using mTerm_t = MathTerm;
 
 #endif

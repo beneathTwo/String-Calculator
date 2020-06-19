@@ -11,15 +11,17 @@ bool checkListWNum(std::string uString, size_t cPos, const char sChars[]);
 
 bool checkList(std::string uString, size_t cPos, const char sChars[]);
 
-mterm_t stringToTerm(std::string uString, std::size_t pA, std::size_t pB, bool dec);
+mTerm_t stringToTerm(std::string uString, std::size_t pA, std::size_t pB, bool dec);
 
-mterm_t getTerms(std::string uString, std::size_t sPos);
+mTerm_t getTerms(std::string uString, std::size_t sPos);
 
-mop_t getOperator(std::string uString, std::size_t termAEnd);
+mOp_t getOperator(std::string uString, std::size_t termAEnd);
 
-mterm_t evaluateEquation(mterm_t a, mterm_t b, mop_t opA);
+mTerm_t evaluateEquation(mTerm_t a, mTerm_t b, mOp_t opA);
 
-bool catchError(StatusCodes eCode);
+bool catchError(sCode_t eCode);
+
+bool catchError(sCode_t eCodeVals[]);
 
 void answerString(std::string uString);
 

@@ -41,14 +41,14 @@ std::string removeJunkCharacters(std::string uString, std::size_t sPos)
 	return uString.erase(sPos, pPos);
 }
 
-mterm_t stringToTerm(std::string uString, std::size_t pA, std::size_t pB, bool dec)
+mTerm_t stringToTerm(std::string uString, std::size_t pA, std::size_t pB, bool dec)
 {
-	mterm_t gTerm{};
+	mTerm_t gTerm{};
 	gTerm.ePos = pB;
 	if (dec)
 	{
 		gTerm.uFTerm = std::stod(uString.substr(pA, pB));
-		gTerm.eCode = StatusCodes::CHANGE_TYPE;
+		gTerm.eCode = sCode_t::CHANGE_TYPE;
 	}
 	else
 	{
@@ -59,14 +59,14 @@ mterm_t stringToTerm(std::string uString, std::size_t pA, std::size_t pB, bool d
 		catch (std::out_of_range&)
 		{
 			gTerm.uFTerm = std::stod(uString.substr(pA, pB));
-			gTerm.eCode = StatusCodes::CHANGE_TYPE;
+			gTerm.eCode = sCode_t::CHANGE_TYPE;
 		}
 	}
 
 	return gTerm;
 }
 
-mterm_t getTerms(std::string uString, std::size_t sPos)
+mTerm_t getTerms(std::string uString, std::size_t sPos)
 {
 	// Clean up depending on position.
 	if (sPos > stringPositions::start)
@@ -80,7 +80,7 @@ mterm_t getTerms(std::string uString, std::size_t sPos)
 
 	if (uString.size() == stringSize::empty)
 	{
-		mterm_t gTerm{ 0, stringPositions::start, StatusCodes::INVALID_INPUT };
+		mTerm_t gTerm{ 0, stringPositions::start, sCode_t::INVALID_INPUT };
 		return gTerm;
 	}
 
@@ -101,14 +101,14 @@ mterm_t getTerms(std::string uString, std::size_t sPos)
 	return stringToTerm(uString, sPos, pPos, decCount);
 }
 
-mop_t getOperator(std::string uString, std::size_t termAEnd)
+mOp_t getOperator(std::string uString, std::size_t termAEnd)
 {
 	// Delete what's before so the wrong operation isn't grabbed.
 	uString.erase(stringPositions::start, termAEnd);
 
 	// Go through the list until the operation is found.
 	using defaultValue::listO;
-	mop_t opA{};
+	mOp_t opA{};
 	for (std::size_t checkChar{}; checkChar < sizeof(listO); ++checkChar)
 		if (uString.find(listO[checkChar]) != std::string::npos)
 		{
@@ -117,25 +117,25 @@ mop_t getOperator(std::string uString, std::size_t termAEnd)
 			return opA;
 		}
 
-	opA.eCode = StatusCodes::INVALID_OPERATION;
+	opA.eCode = sCode_t::INVALID_OPERATION;
 	return opA;
 }
 
-mterm_t evaluateEquation(mterm_t a, mterm_t b, mop_t opA) 
+mTerm_t evaluateEquation(mTerm_t a, mTerm_t b, mOp_t opA) 
 {
-	mterm_t answer{};
-	if (a.eCode < StatusCodes::VALID || b.eCode < StatusCodes::VALID)
+	mTerm_t answer{};
+	if (a.eCode < sCode_t::VALID || b.eCode < sCode_t::VALID)
 	{
-		if (!(a.eCode < StatusCodes::VALID))
+		if (!(a.eCode < sCode_t::VALID))
 			a.uFTerm = static_cast<double>(a.uTerm);
-		if (!(b.eCode < StatusCodes::VALID))
+		if (!(b.eCode < sCode_t::VALID))
 			b.uFTerm = static_cast<double>(b.uTerm);
 
 		if (opA.uOp == MUL)
 			answer.uFTerm = a.uFTerm * b.uFTerm;
 		else if (opA.uOp == DIV)
 			if (b.uFTerm == 0)
-				answer.eCode = StatusCodes::DIVISION_BY_ZERO;
+				answer.eCode = sCode_t::DIVISION_BY_ZERO;
 			else
 				answer.uFTerm = a.uFTerm / b.uFTerm;
 		else if (opA.uOp == ADD)
@@ -149,7 +149,7 @@ mterm_t evaluateEquation(mterm_t a, mterm_t b, mop_t opA)
 			answer.uTerm = a.uTerm * b.uTerm;
 		else if (opA.uOp == DIV)
 			if (b.uTerm == 0)
-				answer.eCode = StatusCodes::DIVISION_BY_ZERO;
+				answer.eCode = sCode_t::DIVISION_BY_ZERO;
 			else
 				answer.uFTerm = static_cast<double>(a.uTerm) / b.uTerm;
 		else if (opA.uOp == ADD)
@@ -162,10 +162,9 @@ mterm_t evaluateEquation(mterm_t a, mterm_t b, mop_t opA)
 }
 
 // Print out any errors
-bool catchError(StatusCodes eCode)
+bool catchError(sCode_t eCode)
 {
-	
-	if (eCode > StatusCodes::VALID)
+	if (eCode > sCode_t::VALID)
 	{
 		std::cerr << "error: ";
 		std::cerr << defaultValue::errorString[static_cast<int>(eCode)] << "\n\n";
@@ -175,26 +174,40 @@ bool catchError(StatusCodes eCode)
 	return false;
 }
 
+
+bool catchError(sCode_t eCodeVals[])
+{
+	int eCodeN{};
+	for (eCodeN; eCodeN < sizeof(eCodeVals); ++eCodeN)
+		if (eCodeVals[eCodeN] > sCode_t::VALID)
+		{
+			std::cerr << "error: ";
+			std::cerr << defaultValue::errorString[static_cast<int>(eCodeVals[eCodeN])];
+			std::cerr << "\n\n";
+			return true;
+		}
+
+	return false;
+}
+
 void answerString(std::string uString)
 {
-	mterm_t termA{ getTerms(uString, stringPositions::start) };
-	if (catchError(termA.eCode))
+	mTerm_t termA{ getTerms(uString, stringPositions::start) };
+
+	mOp_t opA{ getOperator(uString, termA.ePos) };
+
+	mTerm_t termB{ getTerms(uString, ++opA.ePos) };
+
+	sCode_t eList[]{ termA.eCode, opA.eCode, termB.eCode };
+	if (catchError(eList))
 		return;
 
-	mop_t opA{ getOperator(uString, termA.ePos) };
-	if (catchError(opA.eCode))
-		return;
-
-	mterm_t termB{ getTerms(uString, ++opA.ePos) };
-	if (catchError(termB.eCode))
-		return;
-
-	mterm_t answer{ evaluateEquation(termA, termB, opA) };
+	mTerm_t answer{ evaluateEquation(termA, termB, opA) };
 	if (catchError(answer.eCode))
 		return;
 
-	if (opA.uOp == DIV || termA.eCode < StatusCodes::VALID 
-		|| termB.eCode < StatusCodes::VALID)
+	if (opA.uOp == DIV || termA.eCode < sCode_t::VALID 
+		|| termB.eCode < sCode_t::VALID)
 		std::cout << "= " << answer.uFTerm << "\n\n";
 	else
 		std::cout << "= " << answer.uTerm << "\n\n";
