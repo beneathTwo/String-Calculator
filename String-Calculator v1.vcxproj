@@ -161,12 +161,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="mathcalculator.cpp" />
     <ClCompile Include="stringtranslate.cpp" />
     <ClCompile Include="stringtranslate.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="constants.h" />
-    <ClInclude Include="usertypes.h" />
+    <ClInclude Include="mathcalculator.h" />
+    <ClInclude Include="mathtypes.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

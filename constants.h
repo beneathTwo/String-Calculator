@@ -5,9 +5,8 @@
 
 using std::size_t;
 
-namespace defaultValue
+namespace presets
 {
-	inline constexpr char noList[]{ 'n','o' };
 	inline constexpr char listO[]{ '+', '/', '*', '-' };
 
 	inline constexpr char errorString[][20]

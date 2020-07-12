@@ -1,6 +1,4 @@
-#include "constants.h"
-#include "stringtranslate.h"
-#include "usertypes.h"
+#include "mathcalculator.h"
 
 #include <iostream>
 #include <string>
@@ -20,7 +18,8 @@ int main()
     while (true)
     {
         std::string uString{ userInput() };
-        if (uString == "exit")
+
+        if (uString == "exit" || uString == "Exit")
             break;
 
         answerString(uString);
