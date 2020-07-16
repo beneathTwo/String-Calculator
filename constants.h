@@ -7,7 +7,7 @@ using std::size_t;
 
 namespace presets
 {
-	inline constexpr char listO[]{ '+', '/', '*', '-' };
+	inline constexpr char listO[]{ '/', '*', '+', '-' };
 
 	inline constexpr char errorString[][20]
 	{
@@ -23,7 +23,6 @@ namespace presets
 
 namespace stringPositions
 {
-	inline constexpr size_t defaultOp{ 3 };
 	inline constexpr size_t start{};
 }
 

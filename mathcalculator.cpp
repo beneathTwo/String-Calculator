@@ -28,7 +28,7 @@ void evaluateEquation(mTerm_t a, mTerm_t b, mOp_t opA)
 	else if (opA.uOp == ADD)
 		termC = a.uTerm + b.uTerm;
 	else if (opA.uOp == SUB)
-		termC = a.uTerm + b.uTerm;
+		termC = a.uTerm - b.uTerm;
 
 	std::cout << "= " << termC << "\n\n";
 }

@@ -13,7 +13,7 @@ std::string userInput()
 int main()
 {
     std::cout << "Welcome to Calculator 1.0\n";
-    std::cout << "Supports +, -, *, /, to close program type \"exit\"\n\n";
+    std::cout << "Supports *, /, +, -, to close program type \"exit\"\n\n";
 
     while (true)
     {

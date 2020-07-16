@@ -8,7 +8,7 @@
 
 using std::size_t;
 
-// These just run through a list of characters and checks if they are allowed.
+// These just run through a list of characters if one is the same to the input.
 bool checkListWNum(std::string uString, size_t pPos, const char sChars[])
 {
 	for (int countChar{}; countChar < sizeof(sChars); ++countChar)
