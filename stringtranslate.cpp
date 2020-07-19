@@ -12,7 +12,8 @@ using std::size_t;
 // These run through a list of characters checking if one is the same to the input.
 bool checkListWNum(std::string uString, size_t pPos, const char sChars[])
 {
-	for (int countChar{}; countChar < sizeof(sChars); ++countChar)
+	int listSize{ sizeof(sChars) / sizeof(sChars[0]) };
+	for (int countChar{}; countChar < listSize; ++countChar)
 		if (uString.at(pPos) == sChars[countChar])
 			return true;
 
@@ -21,7 +22,8 @@ bool checkListWNum(std::string uString, size_t pPos, const char sChars[])
 
 bool checkList(std::string uString, size_t pPos, const char sChars[])
 {
-	for (int countChar{}; countChar < sizeof(sChars); ++countChar)
+	int listSize{ sizeof(sChars) / sizeof(sChars[0]) };
+	for (int countChar{}; countChar < listSize; ++countChar)
 		if (uString.at(pPos) == sChars[countChar] || std::isdigit(uString.at(pPos)))
 			return true;
 
