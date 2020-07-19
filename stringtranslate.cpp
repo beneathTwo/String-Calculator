@@ -4,11 +4,12 @@
 
 #include <cctype>
 #include <iostream>
+#include <iterator>
 #include <string>
 
 using std::size_t;
 
-// These just run through a list of characters if one is the same to the input.
+// These run through a list of characters checking if one is the same to the input.
 bool checkListWNum(std::string uString, size_t pPos, const char sChars[])
 {
 	for (int countChar{}; countChar < sizeof(sChars); ++countChar)
@@ -85,12 +86,12 @@ mTerm_t getTerms(std::string uString, size_t sPos)
 
 mOp_t getOperator(std::string uString, size_t termAEnd)
 {
-	// Delete what's before so the wrong operation isn't grabbed.
+	// Delete what's before the op wrong operation might be grabbed.
 	uString.erase(stringPositions::start, termAEnd);
 
 	// Go through the list of operations until the operation is found.
 	using presets::listO;
-	for (size_t checkChar{}; checkChar < sizeof(listO); ++checkChar)
+	for (size_t checkChar{}; checkChar < std::size(listO); ++checkChar)
 		if (uString.find(listO[checkChar]) != std::string::npos)
 		{
 			mOp_t opA{};
