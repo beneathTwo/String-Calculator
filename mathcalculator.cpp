@@ -41,8 +41,9 @@ void answerString(std::string uString)
 
 		mOp_t opA{ getOperator(uString, termA.ePos) };
 
-		// Move up 1 from the op position to avoid an invalid input.
-		mTerm_t termB{ getTerms(uString, ++opA.ePos) };
+		// Move up 1 from the op position to avoid an invalid input
+		// if subtraction.
+		mTerm_t termB{ getTerms(uString, opA.ePos + 1) };
 
 		evaluateEquation(termA, termB, opA);
 	}

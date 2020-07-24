@@ -5,9 +5,9 @@
 
 #include <string>
 
-bool checkListWNum(std::string uString, size_t cPos, const char sChars[]);
+bool checkListWNum(std::string uString, size_t cPos, const char sChars[], int len);
 
-bool checkList(std::string uString, size_t cPos, const char sChars[]);
+bool checkList(std::string uString, size_t cPos, const char sChars[], int len);
 
 std::string removeJunkCharacters(std::string uString, std::size_t sPos);
 

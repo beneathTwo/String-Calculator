@@ -7,23 +7,23 @@
 #include <iterator>
 #include <string>
 
+using presets::listO;
+
 using std::size_t;
 
 // These run through a list of characters checking if one is the same to the input.
-bool checkListWNum(std::string uString, size_t pPos, const char sChars[])
+bool checkListWNum(std::string uString, size_t pPos, const char sChars[], int len)
 {
-	int listSize{ sizeof(sChars) / sizeof(sChars[0]) };
-	for (int countChar{}; countChar < listSize; ++countChar)
+	for (int countChar{}; countChar < len; ++countChar)
 		if (uString.at(pPos) == sChars[countChar])
 			return true;
 
 	return false;
 }
 
-bool checkList(std::string uString, size_t pPos, const char sChars[])
+bool checkList(std::string uString, size_t pPos, const char sChars[], int len)
 {
-	int listSize{ sizeof(sChars) / sizeof(sChars[0]) };
-	for (int countChar{}; countChar < listSize; ++countChar)
+	for (int countChar{}; countChar < len; ++countChar)
 		if (uString.at(pPos) == sChars[countChar] || std::isdigit(uString.at(pPos)))
 			return true;
 
@@ -39,9 +39,9 @@ std::string removeJunkCharacters(std::string uString, size_t sPos)
 	char listT[]{ '-', '.' };
 	size_t pPos{ sPos };
 	for (pPos; pPos < uString.size() && !std::isdigit(uString.at(pPos))
-		&& !(checkListWNum(uString, pPos, listT) 
+		&& !(checkListWNum(uString, pPos, listT, std::size(listT)) 
 		&& std::isdigit(uString.at(pPos + 1))); ++pPos)
-		if (checkListWNum(uString, pPos, presets::listO))
+		if (checkListWNum(uString, pPos, listO, std::size(listO)))
 			return uString.erase(sPos, uString.size());
 			
 	return uString.erase(sPos, pPos);
@@ -74,7 +74,8 @@ mTerm_t getTerms(std::string uString, size_t sPos)
 	// Grab the term from the string.
 	char listT[]{ '-', '.' };
 	size_t pPos{};
-	for (int decCount{}; pPos < uString.size() && checkList(uString, pPos, listT); ++pPos)
+	for (int decCount{}; pPos < uString.size() 
+		&& checkList(uString, pPos, listT, std::size(listT)); ++pPos)
 	{
 		if (uString.at(pPos) == '-' && pPos != stringPositions::start 
 			|| decCount > 1)
