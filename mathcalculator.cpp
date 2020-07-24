@@ -1,4 +1,5 @@
 #include "constants.h"
+#include "mathcalculator.h"
 #include "mathtypes.h"
 #include "stringtranslate.h"
 

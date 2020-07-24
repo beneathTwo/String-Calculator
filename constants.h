@@ -7,7 +7,7 @@ using std::size_t;
 
 namespace presets
 {
-	inline constexpr char listO[]{ '/', '*', '+', '-' };
+	inline constexpr char listO[]{ '*', '/', '+', '-' };
 
 	inline constexpr char errorString[][20]
 	{
